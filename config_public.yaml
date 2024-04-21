@@ -1,0 +1,13 @@
+DATA:
+  JOURNALS_URL: https://www.mdpi.com/about/journals
+  HEADERS: {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36"}
+GENAI:
+  SYSTEM_PROMPT: You are a journal editor specializing on the assignment of the manuscripts to the MDPI journals
+  USER_PROMPT: |
+    Evaluate my manuscript and make a table with 3 most suitable journals, degree of the match (low, middle, high), journal titles and links.
+    Afterward, provide the short justification for the matching.
+    Return the results in markdown format.
+
+    Manuscript title: {title}
+    Manuscript abstract: {abstract}
+  CONTEXT_PROMPT: MDPI journals:\n{context}
