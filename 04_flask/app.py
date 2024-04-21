@@ -1,5 +1,6 @@
 # simple flask app
 import yaml
+import logging
 from flask import Flask
 from flask import request, jsonify
 from openai import OpenAI
