@@ -28,16 +28,12 @@ class Recommender:
         # construct user prompt`
         match format:
             case "streamlit":
-                USER_PROMPT = (
-                    self.config["GENAI"]["USER_PROMPT"].format(
-                        title=manuscript.title, abstract=manuscript.abstract
-                    ),
+                USER_PROMPT = self.config["GENAI"]["USER_PROMPT"].format(
+                    title=manuscript["title"], abstract=manuscript["abstract"]
                 )
             case "API":
-                USER_PROMPT = (
-                    self.config["GENAI"]["USER_PROMPT_API"].format(
-                        title=manuscript.title, abstract=manuscript.abstract
-                    ),
+                USER_PROMPT = self.config["GENAI"]["USER_PROMPT_API"].format(
+                    title=manuscript["title"], abstract=manuscript["abstract"]
                 )
             case _:
                 raise ValueError(f"Invalid format: {format}")
@@ -48,7 +44,7 @@ class Recommender:
         )
 
         # create completion
-        return client.chat.completions.create(
+        completion = client.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
@@ -56,3 +52,6 @@ class Recommender:
                 {"role": "assistant", "content": self.CONTEXT_PROMPT},
             ],
         )
+
+        # return the response
+        return completion.choices[0].message.content
