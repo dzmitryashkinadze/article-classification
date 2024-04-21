@@ -1,4 +1,5 @@
 DATA:
+  JOURNALS_PATH: /data/journals.csv
   JOURNALS_URL: https://www.mdpi.com/about/journals
   HEADERS: {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36"}
 GENAI:
@@ -7,6 +8,12 @@ GENAI:
     Evaluate my manuscript and make a table with 3 most suitable journals, degree of the match (low, middle, high), journal titles and links.
     Afterward, provide the short justification for the matching.
     Return the results in markdown format.
+
+    Manuscript title: {title}
+    Manuscript abstract: {abstract}
+  USER_PROMPT_API: |
+    Evaluate my manuscript and make a table with 3 most suitable journals, degree of the match (low, middle, high), journal titles and links.
+    Return the results in a following JSON format [{"title": "<JOURNAL 1 TITLE>", "link": "<JOURNAL 1 LINK>", "description":"<JOURNAL 1 DESCRIPTION>", "matching_degree": "<LOW / MIDDLE / HIGH>", "justification": "<WHY JOURNAL 1 WAS MATCHED>"},{},{}].
 
     Manuscript title: {title}
     Manuscript abstract: {abstract}

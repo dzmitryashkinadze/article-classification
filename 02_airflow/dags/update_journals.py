@@ -73,7 +73,7 @@ def UPDATEJOURNALS():
             return description[:end].strip().replace("\n", " ")
 
         journals["description"] = journals["description"].apply(extract_open_access)
-        journals.to_csv("/data/journals.csv", index=False)
+        journals.to_csv(config["DATA"]["JOURNALS_PATH"], index=False)
 
         return True
 
