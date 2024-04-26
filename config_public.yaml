@@ -19,4 +19,4 @@ GENAI:
     Manuscript abstract: {abstract}
   CONTEXT_PROMPT: MDPI journals:\n{context}
 STREAMLIT:
-  BACKEND_URL: http://127.0.0.1:5000/recommend_streamlit
+  BACKEND_URL: http://127.0.0.1:5001/recommend_streamlit
