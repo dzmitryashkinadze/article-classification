@@ -7,10 +7,18 @@ from openai import OpenAI
 from recommender import Recommender
 from functools import wraps
 
+# set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 # load the configs
-with open("../config_private.yaml", "r") as f:
+with open("config_private.yaml", "r") as f:
     config_private = yaml.safe_load(f)
-with open("../config_public.yaml", "r") as f:
+with open("config_public.yaml", "r") as f:
     config_public = yaml.safe_load(f)
 config = {**config_private, **config_public}
 
@@ -33,6 +41,9 @@ def check_token(f):
         if token and token == f"Bearer {config['FLASK']['SECRET']}":
             return f(*args, **kwargs)
         else:
+
+            # log
+            logging.info("Recorded unauthorized access")
             return jsonify({"error": "Unauthorized"}), 401
 
     return wrapper
@@ -47,13 +58,20 @@ def recommend_streamlit():
     # get the manuscript from the request
     manuscript = request.json
 
+    # log
+    logging.info("Endpoint /recommend_streamlit")
+    logging.info(f"Input manuscript: {manuscript}")
+
     # create the recommender
     recommender = Recommender(config)
 
-    # return the recommendations
-    return jsonify(
-        recommender.generate_recommendations(client, manuscript, format="streamlit")
+    # create recommendations
+    recommendations = recommender.generate_recommendations(
+        client, manuscript, format="streamlit"
     )
+
+    # return the recommendations
+    return jsonify(recommendations)
 
 
 # add endpoint to run the recommender with manuscript input
@@ -65,14 +83,17 @@ def recommend_api():
     # get the manuscript from the request
     manuscript = request.json
 
+    # log
+    logging.info("Endpoint /recommend_api")
+    logging.info(f"Input manuscript: {manuscript}")
+
     # create the recommender
     recommender = Recommender(config)
 
-    # return the recommendations
-    return jsonify(
-        recommender.generate_recommendations(client, manuscript, format="API")
+    # create recommendations
+    recommendations = recommender.generate_recommendations(
+        client, manuscript, format="API"
     )
 
-
-if __name__ == "__main__":
-    app.run(port=5000)
+    # return the recommendations
+    return jsonify(recommendations)
