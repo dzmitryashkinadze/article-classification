@@ -1,0 +1,105 @@
+# Run the journal recommendation app locally
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mdpi-flask-deployment
+  labels:
+    app: mdpi-flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mdpi-flask
+  template:
+    metadata:
+      labels:
+        app: mdpi-flask
+    spec:
+      containers:
+      - name: mdpi-flask
+        image: dzmitryashkinadze/mdpi_flask:latest
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdpi-flask-service
+spec:
+  selector:
+    app: mdpi-flask
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mdpi-flask-ingress
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /flask
+        pathType: Prefix
+        backend:
+          service:
+            name: mdpi-flask-service
+            port:
+              number: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mdpi-streamlit
+  labels:
+    app: mdpi-streamlit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mdpi-streamlit
+  template:
+    metadata:
+      labels:
+        app: mdpi-streamlit
+    spec:
+      containers:
+      - name: mdpi-streamlit
+        image: dzmitryashkinadze/mdpi_streamlit:latest
+        ports:
+        - containerPort: 8501
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdpi-streamlit-service
+spec:
+  selector:
+    app: mdpi-streamlit
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8501
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mdpi-streamlit-ingress
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /streamlit
+        pathType: Prefix
+        backend:
+          service:
+            name: mdpi-streamlit-service
+            port:
+              number: 80
