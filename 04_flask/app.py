@@ -97,3 +97,10 @@ def recommend_api():
 
     # return the recommendations
     return jsonify(recommendations)
+
+
+# Endpoint 3: Health Check
+@app.route("/health", methods=["GET"])
+def health_check():
+    # The endpoint simply returns a JSON response indicating the service is up
+    return jsonify({"status": "up"}), 200

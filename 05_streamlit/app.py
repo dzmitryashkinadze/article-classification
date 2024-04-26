@@ -6,9 +6,9 @@ import streamlit as st
 from openai import OpenAI
 
 # load the configs
-with open("../config_private.yaml", "r") as f:
+with open("config_private.yaml", "r") as f:
     config_private = yaml.safe_load(f)
-with open("../config_public.yaml", "r") as f:
+with open("config_public.yaml", "r") as f:
     config_public = yaml.safe_load(f)
 config = {**config_private, **config_public}
 
