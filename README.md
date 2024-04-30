@@ -21,8 +21,6 @@ For access to the articles I will use the MDPI journals list website (https://ww
 2. I will use OpenAI SDK for access to the LLM model
 3. Flask to build a REST API for article recommendation
 4. Streamlit to build a minimalistic UI
-5. Apache Airflow for automated update the data on MDPI journals
-6. MicroK8s to deploy the solution
 
 ### How this is going to work?
 Prototyping (Step 1). First I will prototype a script to extract the list of MDPI journals and treir descriptions from the web, pass journal descriptions to the LLM together with user-written manuscript and get the matching (prototype.ipynb).
@@ -35,24 +33,19 @@ Flask Development (Step 4). Than I will develop a simlple REST-API for article r
 
 Streamlit Development (Step 5). Than I will develop a simple Streamlit UI for the article recommendation.
 
-Deployment (Step 6). Than I will Dockerize individual components (Airflow, Flask, Streamlit) and deploy them on the MicroK8s.
-
 ## Prototyping (Step 1)
 Have a look in 01_prototyping
 
 ## Data Pypeline (Step 2)
-Here I will develop the python code for the application
+Here I will package the code responsible for the generation of the journal list in an Airflow DAG
 
 ## Backend Development (Step 3)
-Here I will develop the python code for the application
+Here I will package the GenAI code (query generation and submission on OpenAI) in a Python package
 
 ## Flask Development (Step 4)
-Here I will develop the python code for the application
+Here I will develop the Flask REST API
 
 ## Streamlit Development (Step 5)
-Here I will develop the python code for the application
-
-## Deployment (Step 6)
-Here I will develop the python code for the application
+Here I will develop the Streamlit interface
 
 
