@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mdpi-flask-deployment
+  labels:
+    app: mdpi-flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mdpi-flask
+  template:
+    metadata:
+      labels:
+        app: mdpi-flask
+    spec:
+      containers:
+      - name: mdpi-flask
+        image: dzmitryashkinadze/mdpi_flask:latest
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdpi-flask-service
+spec:
+  selector:
+    app: mdpi-flask
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
+  type: NodePort
